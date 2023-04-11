@@ -1,19 +1,25 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import { useAuth } from "../../context/AuthContext";
+import Progress from "../../components/Progress";
 
 const DashboardPage = () => {
 
   const { user } = useAuth();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
+    setLoading(false);
   });
 
+  if (loading) {
+    return (
+      <Progress />
+    )
+  }
 
   return (
     <ProtectedRoute>

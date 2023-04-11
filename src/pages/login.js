@@ -1,4 +1,3 @@
-import styles from '@/styles/Home.module.css'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -9,7 +8,7 @@ import Link from '@mui/material/Link'
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'next/router'
 import FormDialog from '../../components/ForgotPass'
-import { CircularProgress } from '@mui/material'
+import Progress from '../../components/Progress'
 
 export default function Home() {
 
@@ -18,10 +17,13 @@ export default function Home() {
   const { user, login } = useAuth();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    setLoading(true);
     if (user) {
       router.push("/dashboard");
-    }
+    } else setLoading(false);
   },[user]);
 
   const handleSubmit = async (event) => {
@@ -31,12 +33,15 @@ export default function Home() {
     if (data.get('email') && data.get('password')) {
       try {
         await login(data.get('email'), data.get('password'));
-        router.push("/");
+        setLoading(true);
+        router.push("/dashboard");
       } catch (error) {
+        setLoading(false);
         console.log(error);
         setMessage('El Email o la contraseña son incorrectos');
       }
     } else {
+      setLoading(false);
       setMessage('Por favor, rellena todos los campos');
     }
     
@@ -46,9 +51,15 @@ export default function Home() {
     setMessage('');
   }
 
+  if (loading) {
+    return (
+      <Progress />
+    )
+  }
+
   return (
-    <>
-      <main className={styles.main}>
+  
+      <main>
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -57,6 +68,7 @@ export default function Home() {
             flexDirection: 'column',
             '& > :not(style)': { m: 1, minWidth: 300},
             alignItems: 'center',
+            marginTop: 2,
           }}
           validate = "true"
           autoComplete="off"
@@ -135,6 +147,6 @@ export default function Home() {
         </Box>
         
       </main>
-    </>
+    
   )
 }

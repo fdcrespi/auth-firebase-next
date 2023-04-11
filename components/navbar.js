@@ -20,6 +20,14 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import AdminOptions from './AdminOptions';
 import { display } from '@mui/system';
+import { useEffect } from 'react';
+
+
+import { styled } from '@mui/material/styles';
+
+const CustomizeAppBar = styled(AppBar)`
+  background-color: var(--green);
+`;
 
 const drawerWidth = 240;
 const navItems = [
@@ -57,13 +65,6 @@ function DrawerAppBar({children}, props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  /* React.useEffect(() => {
-    if (user) {
-      console.log("User already logged in");
-      console.log(user);
-    }
-  }, [user]); */
-
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -94,7 +95,7 @@ function DrawerAppBar({children}, props) {
         ))
         ) : (
           <>
-          <AdminOptions />
+          <AdminOptions type='mobile' />
           <ListItem disablePadding sx={{justifyContent: 'center'}}>
             <Link href="/">
               <Button sx={{ color: '#000' }} onClick={handleLogout}>
@@ -114,7 +115,8 @@ function DrawerAppBar({children}, props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+     
+      <CustomizeAppBar component="nav" color="secondary">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -155,7 +157,8 @@ function DrawerAppBar({children}, props) {
             )}
           </Box>
         </Toolbar>
-      </AppBar>
+      </CustomizeAppBar>
+
       <Box component="nav">
         <Drawer
           container={container}
@@ -168,6 +171,7 @@ function DrawerAppBar({children}, props) {
           sx={{
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+
           }}
         >
           {drawer}

@@ -1,4 +1,3 @@
-import styles from '@/styles/Home.module.css'
 import { Alert, Box, Button, Grid, TextField, Typography, Link } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
@@ -46,7 +45,7 @@ export default function Home() {
 
   return (
     <>
-      <main className={styles.main}>
+      <main>
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -55,6 +54,7 @@ export default function Home() {
             flexDirection: 'column',
             '& > :not(style)': { m: 1, minWidth: 300},
             alignItems: 'center',
+            marginTop: 2,
           }}
           validate = "true"
           autoComplete="off"
